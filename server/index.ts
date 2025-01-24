@@ -7,6 +7,7 @@ import env from "./src/config/env";
 import logger from "./src/config/logger";
 import CustomError from "./src/utils/Error";
 import globalErrorHandler from "./src/middleware/globalErrorHandler";
+import { checkConnection } from "./src/config/db";
 
 (async () => {
   const app = express();
@@ -44,7 +45,8 @@ import globalErrorHandler from "./src/middleware/globalErrorHandler";
 
   app.use(globalErrorHandler);
   const port = 8000;
-  app.listen(port, async () => {
+    app.listen(port, async () => {
+       await checkConnection();
     console.log(
       `The application is listening on port \x1b[4m\x1b[31m${port}\x1b[0m`
     );
