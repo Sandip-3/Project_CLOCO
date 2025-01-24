@@ -1,0 +1,11 @@
+# Port
+PORT =8000,
+# Database
+DBUSER=postgres
+DBPASSWORD=admin
+DBHOST=127.0.0.1
+DBPORT=5432
+DBDATABASE=artistManagement
+# Secret
+SECRET_KEY =SECRET
+JWT_EXPIRATION=7d
