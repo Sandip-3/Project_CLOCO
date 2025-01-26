@@ -5,6 +5,8 @@ export const Message = {
         user_login_success: "User Logged In Successfully",
         user_login_failed: "User Login Failed",
         user_not_found: "User Not Found",
+        user_found: "User Found",
+        users_found: "Users Found",
         user_already_exists: "User Already Exists",
         user_update_success: "User Updated Successfully",
         user_update_failed: "User Update Failed",
