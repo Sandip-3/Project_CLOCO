@@ -35,6 +35,19 @@ const userController = {
     } catch (error) {
       next(error);
     }
-  },
+    },
+    getUser: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { userId } = req.params;
+            const user = await userServices.getUser(Number(userId));
+            return successResponse({
+                response: res,
+                message: Message.user.user_found,
+                data: user,
+            })
+        } catch (error) {
+            next(error);
+        }
+    },  
 };
 export default userController;
