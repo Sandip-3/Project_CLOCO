@@ -62,3 +62,16 @@ export const validateUserRigistration = [
   body("address").notEmpty().withMessage("Address is required"),
   validationCheck,
 ];
+
+export const validateUserLogin = [
+  body("email").notEmpty().withMessage("Email is required"),
+  body("password").notEmpty().withMessage("Password is required"),
+  validationCheck,
+];
+
+export const validateAdminLogin = [
+  body("email").optional(),
+  body("username").optional(),
+  body("password").notEmpty().withMessage("Password is required"),
+  validationCheck,
+];
