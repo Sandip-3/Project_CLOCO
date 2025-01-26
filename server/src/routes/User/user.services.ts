@@ -1,8 +1,8 @@
 import { Pool } from "pg";
-import bcrypt from "bcryptjs";
 import { User } from "./user.types";
 import CustomError from "../../utils/Error";
 import { Message } from "../../utils/Messages";
+import authHelper from "../../routes/Auth/auth.helper";
 
 class UserServices {
   private pool: Pool;
@@ -29,7 +29,7 @@ class UserServices {
       if (existingUser.rows.length > 0)
         throw new CustomError(Message.user.user_already_exists, 400);
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await authHelper.hash(password);
 
       const res = await client.query(
         'INSERT INTO "user" (first_name,last_name, email,phone, password,dob,gender,address) VALUES ($1, $2, $3, $4, $5,$6,$7,$8) RETURNING *',
