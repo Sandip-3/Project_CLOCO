@@ -55,5 +55,23 @@ class UserServices {
       client.release();
     }
   }
+  async getUser(userId: number) {
+    const client = await this.pool.connect();
+    try {
+      const user = await client.query('SELECT * FROM "user" WHERE id = $1', [
+        userId,
+      ]);
+      if (user.rows.length === 0)
+        throw new CustomError(Message.user.user_not_found, 404);
+      const foundUser = user.rows[0];
+      const userDetail = JSON.parse(JSON.stringify(foundUser));
+      delete userDetail.password;
+      return userDetail;
+    } catch (error) {
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
 }
 export default UserServices;
