@@ -10,6 +10,7 @@ import globalErrorHandler from "./src/middleware/globalErrorHandler";
 import { checkConnection } from "./src/config/db";
 import createTable from "./src/config/tables";
 import seedSuperAdmin from "./src/config/super.admin";
+import deSerializeUser from "./src/middleware/deSerialize.user";
 
 (async () => {
   const app = express();
@@ -34,6 +35,7 @@ import seedSuperAdmin from "./src/config/super.admin";
       ":date[iso] :level :method :url :status :res[content-length] :referrer :total-time[5] - :response-time ms"
     )
   );
+  app.use(deSerializeUser);
   //Route path prefix
   app.use("/api/v1", routes);
 
