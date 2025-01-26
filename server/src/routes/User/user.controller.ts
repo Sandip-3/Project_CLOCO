@@ -48,6 +48,24 @@ const userController = {
         } catch (error) {
             next(error);
         }
-    },  
+  }, 
+    getUsers : async (req: Request, res: Response, next: NextFunction) => {
+      try {
+          const page = req.query.page
+            ? parseInt(req.query.page as string, 10)
+            : 1;
+          const limit = req.query.limit
+            ? parseInt(req.query.limit as string, 10)
+            : 10;
+            const users = await userServices.getUsers(page , limit);
+            return successResponse({
+                response: res,
+                message: Message.user.users_found,
+                data: users,
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
 };
 export default userController;
