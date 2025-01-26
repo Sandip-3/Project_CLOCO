@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { User } from "./user.types";
+import { User, Users } from "./user.types";
 import CustomError from "../../utils/Error";
 import { Message } from "../../utils/Messages";
 import authHelper from "../../routes/Auth/auth.helper";
@@ -67,6 +67,39 @@ class UserServices {
       const userDetail = JSON.parse(JSON.stringify(foundUser));
       delete userDetail.password;
       return userDetail;
+    } catch (error) {
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+  async getUsers(page: number, limit: number) {
+    const client = await this.pool.connect();
+    const offset = (page - 1) * limit;
+    console.log(limit);
+    if (offset < 0) {
+      throw new Error("Invalid page number");
+    }
+    try {
+      const users = await client.query(
+        'SELECT * FROM "user" LIMIT $1 OFFSET $2',
+        [limit, offset]
+      );
+      const totalCountResult = await client.query(
+        'SELECT COUNT(*) FROM "user"'
+      );
+      const foundUsers = users.rows;
+      const usersDetail = foundUsers.map((user: Users) => {
+        const userDetail = JSON.parse(JSON.stringify(user));
+        delete userDetail.password;
+        return userDetail;
+      });
+      return {
+        usersDetail,
+        totalCount: Number(totalCountResult.rows[0].count),
+        page: page,
+        limit: limit,
+      };
     } catch (error) {
       throw error;
     } finally {
