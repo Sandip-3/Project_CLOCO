@@ -9,5 +9,6 @@ userRouter.post(
   validateUserRigistration,
   userController.createUser
 );
+userRouter.get("/:userId", userController.getUser);
 
 export default userRouter;
