@@ -9,6 +9,7 @@ import CustomError from "./src/utils/Error";
 import globalErrorHandler from "./src/middleware/globalErrorHandler";
 import { checkConnection } from "./src/config/db";
 import createTable from "./src/config/tables";
+import seedSuperAdmin from "./src/config/super.admin";
 
 (async () => {
   const app = express();
@@ -49,6 +50,7 @@ import createTable from "./src/config/tables";
     app.listen(port, async () => {
         await checkConnection();
         await createTable();
+        await seedSuperAdmin();
     console.log(
       `The application is listening on port \x1b[4m\x1b[31m${port}\x1b[0m`
     );
