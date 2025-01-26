@@ -5,7 +5,7 @@ import logger from "../../config/logger";
 export default class TokenHelper {
   static async generateToken(
     payload: { userId: string; role: string },
-    option: SignOptions = { expiresIn: parseInt(env.jwtExpire as string, 10) }
+    option: SignOptions = { expiresIn: "1d" }
   ) {
     try {
       // Creating a payload that contains both user ID and role
