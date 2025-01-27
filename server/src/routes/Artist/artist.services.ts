@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 import { Artist } from "./artist.types";
+import CustomError from "../../utils/Error";
 class ArtistService {
   private pool: Pool;
   constructor(pool: Pool) {
@@ -48,6 +49,47 @@ class ArtistService {
       };
     } catch (error) {
       throw error;
+    } finally {
+      client.release();
+    }
+  }
+  async updateArtistById(id: number, updatedData: Record<string, any>) {
+      const client = await this.pool.connect();
+      console.log(id);
+      if (!id || isNaN(id)) {
+        throw new Error("Invalid artist ID");
+      }
+    try {
+      //Checking if fields are modified
+      if (Object.keys(updatedData).length === 0) {
+        throw new Error("No valid fields provided for update");
+      }
+        console.log(updatedData);
+
+      // SQL query for updates
+      const query = `
+          UPDATE "artist"
+          SET ${Object.keys(updatedData)
+            .map((key, index) => `"${key}" = $${index + 1}`)
+            .join(", ")}
+          WHERE id = $${Object.keys(updatedData).length + 1}
+          RETURNING *;
+        `;
+
+      // Combining updatedData values with the artist ID
+      const values = [...Object.values(updatedData), id];
+
+      const result = await client.query(query, values);
+
+      if (result.rowCount === 0) {
+        throw new CustomError(`Artist with ID ${id} not found`, 404);
+      }
+      const updatedArtist = result.rows[0];
+      const artistDetail = JSON.parse(JSON.stringify(updatedArtist));
+      delete artistDetail.password;
+      return artistDetail;
+    } catch (err: any) {
+      throw err;
     } finally {
       client.release();
     }
