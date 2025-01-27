@@ -75,3 +75,23 @@ export const validateAdminLogin = [
   body("password").notEmpty().withMessage("Password is required"),
   validationCheck,
 ];
+
+export const validateArtistRegistration = [
+  body("name").notEmpty().withMessage("Name is required"),
+  body("dob").notEmpty().withMessage("Date of birth is required"),
+  body("gender")
+    .notEmpty()
+    .withMessage("Gender is required")
+    .isIn(["m", "f", "o"])
+    .withMessage("Invalid gender"),
+  body("address").notEmpty().withMessage("Address is required"),
+  body("first_release_year")
+    .notEmpty()
+    .withMessage("First release year is required")
+    .isInt()
+    .withMessage("Invalid year"),
+  body("no_of_albums_released")
+    .notEmpty()
+    .withMessage("Number of albums released is required"),
+  validationCheck,
+];
