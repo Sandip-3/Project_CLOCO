@@ -22,6 +22,7 @@ export const Message = {
         artist_update_failed: "Artist Update Failed",
         artist_delete_success: "Artist Deleted Successfully",
         artist_delete_failed: "Artist Delete Failed",
+        artist_fetch_success: "Artists Fetched Successfully",
     },
     music: {
         music_upload_success: "Music Uploaded Successfully",
