@@ -108,5 +108,18 @@ const userController = {
       next(error);
     }
   },
+  deleteUser: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const user = await userServices.deleteUserById(userId);
+      return successResponse({
+        response: res,
+        message: Message.user.user_delete_success,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 export default userController;
