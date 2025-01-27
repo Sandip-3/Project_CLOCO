@@ -106,5 +106,45 @@ class UserServices {
       client.release();
     }
   }
+  async updateUserById(id: number, updatedData: Record<string, any>) {
+    const client = await this.pool.connect();
+    try {
+      //Checking if fields are modified
+      if (Object.keys(updatedData).length === 0) {
+        throw new Error("No valid fields provided for update");
+      }
+
+      if (updatedData.email) {
+        throw new CustomError("Email cannot be updated", 400);
+      }
+
+      // SQL query for updates
+      const query = `
+      UPDATE "user"
+      SET ${Object.keys(updatedData)
+        .map((key, index) => `"${key}" = $${index + 1}`)
+        .join(", ")}
+      WHERE id = $${Object.keys(updatedData).length + 1}
+      RETURNING *;
+    `;
+
+      // Combining updatedData values with the user ID
+      const values = [...Object.values(updatedData), id];
+
+      const result = await client.query(query, values);
+
+      if (result.rowCount === 0) {
+        throw new CustomError(`User with ID ${id} not found`, 404);
+      }
+      const updatedUser = result.rows[0];
+      const userDetail = JSON.parse(JSON.stringify(updatedUser));
+      delete userDetail.password;
+      return userDetail;
+    } catch (err: any) {
+      throw err;
+    } finally {
+      client.release();
+    }
+  }
 }
 export default UserServices;
