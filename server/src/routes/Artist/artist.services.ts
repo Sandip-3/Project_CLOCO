@@ -28,5 +28,29 @@ class ArtistService {
       client.release();
     }
   }
+  async getArtists(page: number, limit: number) {
+    const client = await this.pool.connect();
+    const offset = (page - 1) * limit;
+    if (offset < 0) {
+      throw new Error("Invalid page number");
+    }
+    try {
+      const res = await client.query(
+        `SELECT * FROM "artist" LIMIT $1 OFFSET $2`,
+        [limit, offset]
+      );
+      const artistCount = await client.query(`SELECT COUNT(*) FROM "artist"`);
+      return {
+        data: res.rows,
+        total: parseInt(artistCount.rows[0].count),
+        page,
+        limit,
+      };
+    } catch (error) {
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
 }
 export default ArtistService;
