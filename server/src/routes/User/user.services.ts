@@ -146,5 +146,25 @@ class UserServices {
       client.release();
     }
   }
+  async deleteUserById(id: number) {
+    const client = await this.pool.connect();
+    try {
+      const result = await client.query(
+        'DELETE FROM "user" WHERE id = $1 RETURNING *',
+        [id]
+      );
+      if (result.rowCount === 0) {
+        throw new CustomError(`User with ID ${id} not found`, 404);
+      }
+      const deletedUser = result.rows[0];
+      const userDetail = JSON.parse(JSON.stringify(deletedUser));
+      delete userDetail.password;
+      return userDetail;
+    } catch (err: any) {
+      throw err;
+    } finally {
+      client.release();
+    }
+  }
 }
 export default UserServices;
