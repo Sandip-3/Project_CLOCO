@@ -12,5 +12,6 @@ artistRouter.post(
   artistController.createArtist
 );
 artistRouter.get("/", artistController.getArtists);
+artistRouter.patch("/:artistId", validateRole(["superadmin"]), artistController.updateArtist);
 
 export default artistRouter;
