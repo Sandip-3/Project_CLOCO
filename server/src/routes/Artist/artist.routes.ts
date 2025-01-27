@@ -6,12 +6,16 @@ import { validateArtistRegistration } from "../../middleware/validator";
 const artistRouter = Router();
 
 artistRouter.post(
-    "/register",
-    validateArtistRegistration,
+  "/register",
+  validateArtistRegistration,
   validateRole(["superadmin"]),
   artistController.createArtist
 );
 artistRouter.get("/", artistController.getArtists);
-artistRouter.patch("/:artistId", validateRole(["superadmin"]), artistController.updateArtist);
+artistRouter
+  .route("/:artistId")
+  .all(validateRole(["superadmin"]))
+  .patch(artistController.updateArtist)
+  .delete(artistController.deleteArtist);
 
 export default artistRouter;
