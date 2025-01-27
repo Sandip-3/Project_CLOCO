@@ -51,7 +51,7 @@ const createTable = async () => {
                 artist_id INT REFERENCES artist(id) ON DELETE CASCADE,
                 title VARCHAR(255) NOT NULL,
                 album_name VARCHAR(255),
-                genre CHAR(1) CHECK (genre IN('rnb', 'country', 'classic', 'rock', 'jazz')) NOT NULL,
+                genre VARCHAR(20) CHECK (genre IN('rnb', 'country', 'classic', 'rock', 'jazz')) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
