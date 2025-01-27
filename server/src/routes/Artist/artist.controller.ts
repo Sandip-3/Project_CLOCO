@@ -45,5 +45,43 @@ const artistController = {
       next(error);
     }
   },
+  updateArtist: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const artistId = parseInt(req.params.artistId);
+      // Extract artist details from request body
+      const {
+        name,
+        dob,
+        gender,
+        address,
+        first_release_year,
+        no_of_albums_released,
+      } = req.body;
+
+      // Prepare updated artist data
+      const updatedArtistData: Record<string, any> = {};
+      if (name) updatedArtistData.name = name;
+      if (dob) updatedArtistData.dob = dob;
+      if (gender) updatedArtistData.gender = gender;
+      if (address) updatedArtistData.address = address;
+      if (first_release_year)
+        updatedArtistData.first_release_year = first_release_year;
+      if (no_of_albums_released)
+        updatedArtistData.no_of_albums_released = no_of_albums_released;
+
+      const updatedArtist = await artistService.updateArtistById(
+        artistId,
+        updatedArtistData
+      );
+      return successResponse({
+        response: res,
+        message: Message.artist.artist_update_success,
+        data: updatedArtist,
+      });
+    } catch (error) {
+      console.error("Error updating artist profile:", error);
+      next(error);
+    }
+  },
 };
 export default artistController;
