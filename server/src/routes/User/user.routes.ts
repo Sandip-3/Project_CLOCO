@@ -23,4 +23,5 @@ userRouter.patch(
   validateRole(["superadmin"]),
   userController.updateUserProfile
 );
+userRouter.delete("/:userId", validateRole(["superadmin"]), userController.deleteUser);
 export default userRouter;
