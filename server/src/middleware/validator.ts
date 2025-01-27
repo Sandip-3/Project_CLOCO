@@ -95,3 +95,15 @@ export const validateArtistRegistration = [
     .withMessage("Number of albums released is required"),
   validationCheck,
 ];
+
+export const validateMusic = [
+  body("artist_id").notEmpty().withMessage("Artist ID is required"),
+  body("title").notEmpty().withMessage("Title is required"),
+  body("album_name").notEmpty().withMessage("Album name is required"),
+  body("genre")
+    .notEmpty()
+    .withMessage("Genre is required")
+    .isIn(["rnb", "country", "classic", "rock", "jazz"])
+    .withMessage("Invalid genre"),
+  validationCheck,
+];
