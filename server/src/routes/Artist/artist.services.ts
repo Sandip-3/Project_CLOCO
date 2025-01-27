@@ -54,17 +54,17 @@ class ArtistService {
     }
   }
   async updateArtistById(id: number, updatedData: Record<string, any>) {
-      const client = await this.pool.connect();
-      console.log(id);
-      if (!id || isNaN(id)) {
-        throw new Error("Invalid artist ID");
-      }
+    const client = await this.pool.connect();
+    console.log(id);
+    if (!id || isNaN(id)) {
+      throw new Error("Invalid artist ID");
+    }
     try {
       //Checking if fields are modified
       if (Object.keys(updatedData).length === 0) {
         throw new Error("No valid fields provided for update");
       }
-        console.log(updatedData);
+      console.log(updatedData);
 
       // SQL query for updates
       const query = `
@@ -90,6 +90,30 @@ class ArtistService {
       return artistDetail;
     } catch (err: any) {
       throw err;
+    } finally {
+      client.release();
+    }
+  }
+  async deleteArtistById(id: number) {
+    const client = await this.pool.connect();
+    if (!id || isNaN(id)) {
+      throw new Error("Invalid artist ID");
+    }
+    try {
+      const existingArtist = await client.query(
+        `SELECT * FROM "artist" WHERE id = $1`,
+        [id]
+      );
+      if (existingArtist.rows.length === 0) {
+        throw new CustomError(`Artist not found`, 404);
+      }
+      const res = await client.query(
+        `DELETE FROM "artist" WHERE id = $1 RETURNING *`,
+        [id]
+      );
+      return res.rows[0];
+    } catch (error) {
+      throw error;
     } finally {
       client.release();
     }
