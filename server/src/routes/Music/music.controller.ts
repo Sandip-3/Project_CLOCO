@@ -67,6 +67,21 @@ const musicController = {
           console.error("Error deleting Music:", error);
           next(error);
         }
-      }
+    },
+    getMusicByArtist: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const artistId = parseInt(req.params.artistId);
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 10;
+          const music = await musicServices.getMusicByArtistId(artistId,page ,limit);
+          return successResponse({
+            response: res,
+            message: "Music fetched successfully",
+            data: music,
+          });
+        } catch (error) {
+          next(error);
+        }
+    }
 };
 export default musicController;
