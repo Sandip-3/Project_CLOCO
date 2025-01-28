@@ -11,5 +11,6 @@ musicRouter.post(
   validateRole(["superadmin"]),
   musicController.createMusic
 );
+musicRouter.patch("/:musicId", validateRole(["superadmin"]), musicController.updateMusic);
 
 export default musicRouter;
