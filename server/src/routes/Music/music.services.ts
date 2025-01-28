@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import CustomError from "../../utils/Error";
 
 class MusicServices {
   private pool: Pool;
@@ -25,5 +26,46 @@ class MusicServices {
       client.release();
     }
   }
+    async updateMusicById(id: number, updatedData: Record<string, any>) {
+        const client = await this.pool.connect();
+        // console.log(id);
+        if (!id || isNaN(id)) {
+          throw new Error("Invalid Music ID");
+        }
+        try {
+          //Checking if fields are modified
+          if (Object.keys(updatedData).length === 0) {
+            throw new Error("No valid fields provided for update");
+          }
+          console.log(updatedData);
+    
+          // SQL query for updates
+          const query = `
+              UPDATE "music"
+              SET ${Object.keys(updatedData)
+                .map((key, index) => `"${key}" = $${index + 1}`)
+                .join(", ")}
+              WHERE id = $${Object.keys(updatedData).length + 1}
+              RETURNING *;
+            `;
+    
+          // Combining updatedData values with the music ID
+          const values = [...Object.values(updatedData), id];
+    
+          const result = await client.query(query, values);
+    
+          if (result.rowCount === 0) {
+            throw new CustomError(`Music not found`, 404);
+          }
+          const updatedMusic = result.rows[0];
+          const musicDetail = JSON.parse(JSON.stringify(updatedMusic));
+          delete musicDetail.password;
+          return musicDetail;
+        } catch (err: any) {
+          throw err;
+        } finally {
+          client.release();
+        }
+      }
 }
 export default MusicServices;
