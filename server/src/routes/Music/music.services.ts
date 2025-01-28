@@ -66,6 +66,30 @@ class MusicServices {
         } finally {
           client.release();
         }
-      }
+    }
+    async deleteMusicById(id: number) {
+        const client = await this.pool.connect();
+        if (!id || isNaN(id)) {
+          throw new Error("Invalid Music ID");
+        }
+        try {
+          const existingMusic = await client.query(
+            `SELECT * FROM "music" WHERE id = $1`,
+            [id]
+          );
+          if (existingMusic.rows.length === 0) {
+            throw new CustomError(`Music not found`, 404);
+          }
+          const result = await client.query(
+            `DELETE FROM "music" WHERE id = $1 RETURNING *`,
+            [id]
+          );
+          return result.rows[0];
+        } catch (error) {
+          throw error;
+        } finally {
+          client.release();
+        }
+    }
 }
 export default MusicServices;
