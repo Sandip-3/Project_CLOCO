@@ -17,4 +17,6 @@ musicRouter
   .patch(musicController.updateMusic)
   .delete(musicController.deleteMusic);
 
+musicRouter.get("/artist/:artistId", musicController.getMusicByArtist);
+
 export default musicRouter;
