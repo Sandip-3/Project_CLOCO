@@ -54,5 +54,19 @@ const musicController = {
       next(error);
     }
     },
+    deleteMusic: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const musicId = parseInt(req.params.musicId);
+          const music = await musicServices.deleteMusicById(musicId);
+          return successResponse({
+            response: res,
+            message: Message.music.music_delete_success,
+            data: music,
+          });
+        } catch (error) {
+          console.error("Error deleting Music:", error);
+          next(error);
+        }
+      }
 };
 export default musicController;
