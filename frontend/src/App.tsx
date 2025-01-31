@@ -1,12 +1,14 @@
-import { Button } from "./components/ui/button"
+import { Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
 
 function App() {
-
   return (
-    <div>
-      <Button className="m-12">Hello</Button>
-    </div>
-  )
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}></Route>
+      </Routes>
+    </>
+  );
 }
 
-export default App
+export default App;
