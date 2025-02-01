@@ -118,5 +118,25 @@ class ArtistService {
       client.release();
     }
   }
+  async getArtistById(id: number) {
+    const client = await this.pool.connect();
+    if (!id || isNaN(id)) {
+      throw new Error("Invalid artist ID");
+    }
+    try {
+      const res = await client.query(
+        `SELECT * FROM "artist" WHERE id = $1`,
+        [id]
+      );
+      if (res.rows.length === 0) {
+        throw new CustomError(`Artist not found`, 404);
+      }
+      return res.rows[0];
+    } catch (error) {
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
 }
 export default ArtistService;
