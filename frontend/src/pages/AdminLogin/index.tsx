@@ -19,12 +19,12 @@ const AdminLogin = () => {
   });
 
   useEffect(() => {
-    // const storedUserData = localStorage.getItem("userData");
-    // if (storedUserData) {
-    //   const userData = JSON.parse(storedUserData);
-    //   setUser(userData);
-    //   navigate("/home");
-    // }
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      setUser(userData);
+      navigate("/admin/dashboard");
+    }
   }, []);
 
   const onSubmit = async (values: AdminLoginData) => {
@@ -36,12 +36,10 @@ const AdminLogin = () => {
           "accessToken",
           JSON.stringify(data.data.accessToken)
         );
-        console.log(data.data);
         setUser(data.data.user);
-
         const message = response?.data.message;
         toast.success(message);
-        navigate("/home");
+        navigate("/admin/dashboard");
       })
       .catch((error) => {
         const data = error.response?.data;
