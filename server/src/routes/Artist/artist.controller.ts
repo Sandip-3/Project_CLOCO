@@ -96,6 +96,20 @@ const artistController = {
           console.error("Error deleting artist profile:", error);
           next(error);
         }
-      }
+  },
+  getArtist: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const artistId = parseInt(req.params.artistId);
+      const artist = await artistService.getArtistById(artistId);
+      return successResponse({
+        response: res,
+        message: Message.artist.artist_fetch_success,
+        data: artist,
+      });
+    } catch (error) {
+      console.error("Error fetching artist.", error);
+      next(error);
+    }
+  }
 };
 export default artistController;
