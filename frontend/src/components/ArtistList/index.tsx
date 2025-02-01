@@ -11,7 +11,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDown, MoreHorizontal } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -187,8 +187,9 @@ function index() {
       rowSelection,
     },
   });
+  const navigate = useNavigate();
   const handleUpdate = (id: number) => {
-    console.log(id);
+    navigate(`/update/artist/${id}`);
   };
 
   return (
