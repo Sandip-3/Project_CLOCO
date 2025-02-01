@@ -7,7 +7,6 @@ import { useUser } from "@/context/User";
 import { useEffect } from "react";
 import { UserLoginData } from "@/Types";
 import { toast } from "sonner";
-import { set } from "date-fns";
 
 const UserLogin = () => {
   const { setUser } = useUser();
@@ -24,7 +23,7 @@ const UserLogin = () => {
     if (storedUserData) {
       const userData = JSON.parse(storedUserData);
       setUser(userData);
-    //   navigate("/home");
+      navigate("/home");
     }
   }, []);
 
@@ -40,7 +39,7 @@ const UserLogin = () => {
           setUser(data.data.user);
         const message = response?.data.message;
         toast.success(message);
-        // navigate("/home");
+        navigate("/home");
       })
       .catch((error) => {
         const data = error.response?.data;
