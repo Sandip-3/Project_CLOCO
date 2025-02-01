@@ -31,6 +31,7 @@ function App() {
         </Route>
       </Routes>
       <Toaster richColors toastOptions={{}} closeButton theme="light" />
+      
     </>
   );
 }
