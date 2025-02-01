@@ -16,6 +16,7 @@ artistRouter
   .route("/:artistId")
   .all(validateRole(["superadmin"]))
   .patch(artistController.updateArtist)
-  .delete(artistController.deleteArtist);
+  .delete(artistController.deleteArtist)
+  .get(artistController.getArtist);
 
 export default artistRouter;
