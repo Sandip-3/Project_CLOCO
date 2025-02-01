@@ -31,7 +31,7 @@ const AdminLogin = () => {
     await loginAdmin(values)
       .then((response) => {
         const data = response.data;
-        localStorage.setItem("userData", JSON.stringify(data.data.userInfo));
+        localStorage.setItem("userData", JSON.stringify(data.data.user));
         localStorage.setItem(
           "accessToken",
           JSON.stringify(data.data.accessToken)
@@ -58,10 +58,10 @@ const AdminLogin = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 border border-gray-50 p-4 shadow-lg rounded-lg"
         >
-          <p className="text-3xl font-serif text-center">Login</p>
+          <p className="text-3xl font-serif text-center">Admin Login</p>
           <div className="space-y-6">
             <div>
-              <label className="block mb-1">Email</label>
+              <label className="block mb-1">Email/Username</label>
               <Input placeholder="Email" {...form.register("email")} />
             </div>
             <div>
