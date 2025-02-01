@@ -9,6 +9,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Home from "./pages/Home";
 import Unauthorized from "./pages/Unauthorized";
 import ProtectedAdminRoute from "./components/AdminProtected/AdminRoute";
+import UpdateArtist from "./pages/UpdateArtist";
 
 function App() {
   return (
@@ -27,11 +28,11 @@ function App() {
           {/* Protected Admin Dashboard */}
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/update/artist/:id" element={<UpdateArtist />} />
           </Route>
         </Route>
       </Routes>
       <Toaster richColors toastOptions={{}} closeButton theme="light" />
-      
     </>
   );
 }
