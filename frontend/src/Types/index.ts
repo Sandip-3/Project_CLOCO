@@ -1,5 +1,11 @@
-export interface UserLogin {
+export interface UserLoginData {
   email: string;
+  password: string;
+}
+
+export interface AdminLoginData {
+  email: string;
+  username?: string;
   password: string;
 }
 
