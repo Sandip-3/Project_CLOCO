@@ -82,6 +82,19 @@ const musicController = {
         } catch (error) {
           next(error);
         }
+  },
+  getMusic: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.musicId
+      const music = await musicServices.getMusicById(Number(id));
+      return successResponse({
+        response: res,
+        message: "Music fetched successfully",
+        data: music,
+      });
+    } catch (error) {
+      next(error);
     }
+  }
 };
 export default musicController;
