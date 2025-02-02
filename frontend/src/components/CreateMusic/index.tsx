@@ -25,29 +25,19 @@ const formSchema = z.object({
   genre: z.enum(["classic", "rock", "jazz", "country", "rnb"], {
     message: "Select a valid genre",
   }),
-  release_year: z.string().trim().min(4, {
-    message: "Release Year must be a valid year.",
-  }),
-  no_of_tracks: z.string().trim().min(1, {
-    message: "Number of tracks must be at least 1.",
-  }),
 });
 
 interface MusicAlbumRegisterProps {
   artistId: string;
 }
 
-const index: React.FC<MusicAlbumRegisterProps> = ({
-  artistId,
-}) => {
+const index: React.FC<MusicAlbumRegisterProps> = ({ artistId }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       album_name: "",
       genre: "classic",
-      release_year: "",
-      no_of_tracks: "",
     },
   });
 
@@ -57,8 +47,6 @@ const index: React.FC<MusicAlbumRegisterProps> = ({
     formData.append("title", values.title);
     formData.append("album_name", values.album_name);
     formData.append("genre", values.genre);
-    formData.append("release_year", String(values.release_year));
-    formData.append("no_of_tracks", String(Number(values.no_of_tracks)));
 
     try {
       await createMusic(Object.fromEntries(formData));
@@ -138,42 +126,6 @@ const index: React.FC<MusicAlbumRegisterProps> = ({
                       R&B
                     </label>
                   </RadioGroup>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="release_year"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Release Year</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Release Year"
-                      type="number"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="no_of_tracks"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Number of Tracks</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Number of Tracks"
-                      type="number"
-                      {...field}
-                    />
-                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
