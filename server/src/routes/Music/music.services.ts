@@ -118,5 +118,22 @@ class MusicServices {
       client.release();
     }
   }
+  async getMusicById(id: number) {
+    const client = await this.pool.connect();
+    try {
+      const result = await client.query(
+        `SELECT * FROM "music" WHERE id = $1`,
+        [id]
+      );
+      if (result.rows.length === 0) {
+        throw new CustomError(`Music not found`, 404);
+      }
+      return result.rows[0];
+    } catch (error) {
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
 }
 export default MusicServices;
