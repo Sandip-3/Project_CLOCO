@@ -11,3 +11,11 @@ export const deleteMusicById = (id: number) => {
 export const createMusic = (values: any) => {
   return appAxios.post(`/music/create`, values);
 };
+
+export const getMusicById = (id: number) => {
+  return appAxios.get(`/music/${id}`);
+};
+
+export const updateMusic = (id: number, values: any) => {
+  return appAxios.patch(`/music/${id}`, values);
+};
