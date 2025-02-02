@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Unauthorized from "./pages/Unauthorized";
 import ProtectedAdminRoute from "./components/AdminProtected/AdminRoute";
 import UpdateArtist from "./pages/UpdateArtist";
+import UpdateUser from "./pages/UpdateUser";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/update/artist/:id" element={<UpdateArtist />} />
+            <Route path="/update/user/:id" element={<UpdateUser />} />
           </Route>
         </Route>
       </Routes>
