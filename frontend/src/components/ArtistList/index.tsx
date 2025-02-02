@@ -117,8 +117,9 @@ export const columns: ColumnDef<Artist>[] = [
           toast.error("An error occurred while deleting the artist");
         }
       };
+      const navigate = useNavigate();
       const viewSongs = (id: number) => {
-        console.log(id);
+        navigate(`/artist/music/${id}`);
       };
       return (
         <DropdownMenu>
@@ -131,7 +132,8 @@ export const columns: ColumnDef<Artist>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 viewSongs(row.original.id);
               }}
             >
@@ -156,15 +158,15 @@ function Index() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  const [data, setData] = useState<Artist[]>([]); 
-  const [loading, setLoading] = useState(true); 
+  const [data, setData] = useState<Artist[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
         const artistData = await getArtists();
-        setData(artistData.data.data.data); 
-        setLoading(false); 
+        setData(artistData.data.data.data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
         setLoading(false);
@@ -199,7 +201,7 @@ function Index() {
   return (
     <div className="w-full">
       {loading ? (
-        <div>Loading...</div> 
+        <div>Loading...</div>
       ) : (
         <>
           <div className="flex items-center py-4">
