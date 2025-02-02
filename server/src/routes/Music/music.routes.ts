@@ -11,6 +11,7 @@ musicRouter.post(
   validateRole(["superadmin"]),
   musicController.createMusic
 );
+musicRouter.get("/:musicId", musicController.getMusic);
 musicRouter
   .route("/:musicId")
   .all(validateRole(["superadmin"]))
