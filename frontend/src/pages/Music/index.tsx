@@ -187,8 +187,8 @@ function index() {
   });
 
   const navigate = useNavigate();
-  const handleUpdate = (id: number) => {
-    navigate(`/update/music/${id}`);
+  const handleUpdate = (musicId: number) => {
+    navigate(`/update/music/${id}/${musicId}`);
   };
 
   return (
