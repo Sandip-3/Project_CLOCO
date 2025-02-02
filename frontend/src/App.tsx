@@ -12,6 +12,7 @@ import ProtectedAdminRoute from "./components/AdminProtected/AdminRoute";
 import UpdateArtist from "./pages/UpdateArtist";
 import UpdateUser from "./pages/UpdateUser";
 import Music from "./pages/Music";
+import UpdateMusic from "./pages/UpdateMusic";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/update/artist/:id" element={<UpdateArtist />} />
             <Route path="/update/user/:id" element={<UpdateUser />} />
             <Route path="/artist/music/:id" element={<Music />} />
+            <Route path="/update/music/:artistId/:musicId" element={<UpdateMusic />} />
           </Route>
         </Route>
       </Routes>
