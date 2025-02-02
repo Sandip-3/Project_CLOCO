@@ -12,7 +12,7 @@ userRouter.post(
   userController.createUser
 );
 userRouter.get("/:userId", userController.getUser);
-userRouter.get("/", validateRole(["superadmin"]), userController.getUsers);
+userRouter.get("/", userController.getUsers);
 userRouter.patch(
   "/profile/:userId",
   requireUser,
