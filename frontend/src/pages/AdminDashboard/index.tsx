@@ -1,4 +1,5 @@
 import ArtistComponent from "@/components/ArtistComponent";
+import UserComponent from "@/components/UserComponent";
 import { useState } from "react";
 const index = () => {
   const [activeTab, setActiveTab] = useState<"user" | "artist">("user");
@@ -23,16 +24,13 @@ const index = () => {
           Artist
         </button>
       </aside>
-      <main className="flex-1 flex  text-2xl font-bold">
+      <main className="flex-1 flex h-[100%] overflow-y-auto  text-2xl font-bold">
         {activeTab === "user" ? <UserComponent /> : <ArtistComponent />}
       </main>
     </div>
   );
 };
 
-const UserComponent = () => {
-  return <div className="text-gray-800">User Dashboard</div>;
-};
 
 
 export default index;
